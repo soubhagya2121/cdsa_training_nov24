@@ -1,0 +1,151 @@
+Node {
+    int data;
+    Node next;
+
+    Node(int data){
+        this.data = data;
+        this.next = null;
+    }
+
+}
+
+class LinkedList {
+    Node head;
+
+    LinkedList(){
+        this.head = null;
+    }
+
+    public void add(int data){
+        Node newNode = new Node(data);
+        if (head == null){
+            head = newNode;
+        } else {
+            Node temp = head;
+            while (temp.next != null){
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        LinkedList list = new LinkedList();
+        list.add(17);
+        list.add(20);
+        list.add(25);
+    }
+}
+10:57 pm
+TODAY
+Forwarded
+Speech.docx
+1 page•DOCX•13 kB
+7:54 pm
+Forwarded
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function to calculate the GCD of two numbers
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+// Function to compare two integers (used for sorting)
+int compare(const void *a, const void *b) {
+    return (*(int *)b - *(int *)a);  // Sorting in descending order
+}
+
+int main() {
+    int n;
+
+    // Input the size of the array
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    int arr[n];
+
+    // Input the elements of the array
+    printf("Enter the elements of the array: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Edge case: If there are less than 2 numbers, no valid pair exists
+    if (n < 2) {
+        printf("Not enough elements to form a valid pair.\n");
+        return 0;
+    }
+
+    // Sort the array in descending order to easily find the largest and second-largest numbers
+    qsort(arr, n, sizeof(int), compare);
+
+    // Find the maximum sum of two distinct integers
+    int max_sum = arr[0] + arr[1];
+
+    // The second-largest integer is arr[1] after sorting
+    int second_largest = arr[1];
+
+    // Calculate the GCD of the maximum sum and the second-largest integer
+    int result = gcd(max_sum, second_largest);
+
+    // Output the result
+    printf("Maximum sum of two distinct integers: %d\n", max_sum);
+    printf("GCD of the maximum sum with the second-largest integer: %d\n", result);
+
+    return 0;
+}
+9:36 pm
+Forwarded
+#include <stdio.h>
+
+int countOccurrences(int *arr, int size, int target) {
+    int count = 0;
+    // Pointer to the first element of the array
+    int *ptr = arr;
+
+    // Iterate through the array using the pointer
+    for (int i = 0; i < size; i++) {
+        if (*ptr == target) {  // Dereference the pointer and compare
+            count++;  // Increment the count if the element matches
+        }
+        ptr++;  // Move the pointer to the next element
+    }
+
+    return count;
+}
+
+int main() {
+    int n, target;
+
+    // Input the size of the array
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    int arr[n];
+
+    // Input the elements of the array
+    printf("Enter the elements of the array: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Input the target element to search for
+    printf("Enter the element to count: ");
+    scanf("%d", &target);
+
+    // Call the function to count occurrences
+    int count = countOccurrences(arr, n, target);
+
+    // Output the result
+    printf("The element %d appears %d times in the array.\n", target, count);
+
+    return 0;
+}
