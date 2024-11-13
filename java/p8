@@ -1,0 +1,61 @@
+class QuickSort {
+
+    // Function to perform the partitioning of the array
+    int partition(int arr[], int low, int high) {
+        int pivot = arr[high]; // Choose the rightmost element as pivot
+        int i = (low - 1); // Index of the smaller element
+
+        for (int j = low; j < high; j++) {
+            // If the current element is smaller than the pivot
+            if (arr[j] < pivot) {
+                i++;
+                // Swap arr[i] and arr[j]
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+
+        // Swap the pivot element with the element at (i+1)
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+
+        return i + 1; // Return the partition index
+    }
+
+    // Function to implement QuickSort recursively
+    void quickSort(int arr[], int low, int high) {
+        if (low < high) {
+            // Partitioning index
+            int pi = partition(arr, low, high);
+
+            // Recursively sort elements before and after partition
+            quickSort(arr, low, pi - 1);  // Left of the pivot
+            quickSort(arr, pi + 1, high); // Right of the pivot
+        }
+    }
+
+    // Utility function to print the array
+    void printArray(int arr[]) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        QuickSort quickSort = new QuickSort();
+
+        int arr[] = {10, 80, 30, 90, 40, 50, 70};
+
+        System.out.println("Unsorted Array:");
+        quickSort.printArray(arr);
+
+        // Call quickSort
+        quickSort.quickSort(arr, 0, arr.length - 1);
+
+        System.out.println("Sorted Array:");
+        quickSort.printArray(arr);
+    }
+}
