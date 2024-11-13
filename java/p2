@@ -1,0 +1,59 @@
+class BST {
+
+    // Node class to represent each node in the BST
+    static class Node {
+        int data;
+        Node left, right;
+
+        // Constructor
+        Node(int data) {
+            this.data = data;
+            left = right = null;
+        }
+    }
+
+    Node root;
+
+    // Function to insert a new node in the BST
+    Node insert(Node root, int data) {
+        if (root == null) {
+            root = new Node(data); // Create a new node if the tree is empty
+            return root;
+        }
+
+        // Recursively insert the data
+        if (data < root.data) {
+            root.left = insert(root.left, data);  // Insert in the left subtree
+        } else {
+            root.right = insert(root.right, data);  // Insert in the right subtree
+        }
+
+        return root;
+    }
+
+    // Function to do in-order traversal of the tree (prints elements in sorted order)
+    void inOrder(Node root) {
+        if (root != null) {
+            inOrder(root.left);  // Traverse left subtree
+            System.out.print(root.data + " ");  // Visit the root
+            inOrder(root.right);  // Traverse right subtree
+        }
+    }
+
+    public static void main(String[] args) {
+        BST tree = new BST();
+
+        // Insert elements into the BST
+        tree.root = tree.insert(tree.root, 50);
+        tree.insert(tree.root, 30);
+        tree.insert(tree.root, 20);
+        tree.insert(tree.root, 40);
+        tree.insert(tree.root, 70);
+        tree.insert(tree.root, 60);
+        tree.insert(tree.root, 80);
+
+        // Perform in-order traversal to print the sorted tree
+        System.out.print("In-order traversal of the BST: ");
+        tree.inOrder(tree.root);
+    }
+}
