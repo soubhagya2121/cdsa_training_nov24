@@ -1,0 +1,144 @@
+class AVLTree {
+
+    // Node class to represent each node in the AVL tree
+    static class Node {
+        int data;
+        Node left, right;
+        int height;
+
+        Node(int data) {
+            this.data = data;
+            this.left = this.right = null;
+            this.height = 1;  // Initially, the height of the node is 1
+        }
+    }
+
+    // Root of the AVL Tree
+    Node root;
+
+    // Get the height of the node
+    int height(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        return node.height;
+    }
+
+    // Get the balance factor of a node
+    int getBalanceFactor(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        return height(node.left) - height(node.right);
+    }
+
+    // Right rotation (used to fix left-heavy trees)
+    Node rightRotate(Node y) {
+        Node x = y.left;
+        Node T2 = x.right;
+
+        // Perform rotation
+        x.right = y;
+        y.left = T2;
+
+        // Update heights
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+
+        return x;  // Return the new root
+    }
+
+    // Left rotation (used to fix right-heavy trees)
+    Node leftRotate(Node x) {
+        Node y = x.right;
+        Node T2 = y.left;
+
+        // Perform rotation
+        y.left = x;
+        x.right = T2;
+
+        // Update heights
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+
+        return y;  // Return the new root
+    }
+
+    // Insert a new node into the AVL tree
+    Node insert(Node node, int data) {
+        // Step 1: Perform the normal BST insertion
+        if (node == null) {
+            return new Node(data);
+        }
+
+        if (data < node.data) {
+            node.left = insert(node.left, data);
+        } else if (data > node.data) {
+            node.right = insert(node.right, data);
+        } else {
+            return node;  // Duplicate data is not allowed
+        }
+
+        // Step 2: Update the height of the current node
+        node.height = Math.max(height(node.left), height(node.right)) + 1;
+
+        // Step 3: Get the balance factor of the node to check whether it became unbalanced
+        int balanceFactor = getBalanceFactor(node);
+
+        // If the node becomes unbalanced, there are four cases:
+
+        // Case 1: Left Left (LL) - Right rotation
+        if (balanceFactor > 1 && data < node.left.data) {
+            return rightRotate(node);
+        }
+
+        // Case 2: Right Right (RR) - Left rotation
+        if (balanceFactor < -1 && data > node.right.data) {
+            return leftRotate(node);
+        }
+
+        // Case 3: Left Right (LR) - Left-Right rotation
+        if (balanceFactor > 1 && data > node.left.data) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+
+        // Case 4: Right Left (RL) - Right-Left rotation
+        if (balanceFactor < -1 && data < node.right.data) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
+
+        return node;  // Return the (unchanged) node pointer
+    }
+
+    // Perform in-order traversal of the tree
+    void inOrder(Node root) {
+        if (root != null) {
+            inOrder(root.left);
+            System.out.print(root.data + " ");
+            inOrder(root.right);
+        }
+    }
+
+    // Utility function to insert a node and start from the root
+    void insert(int data) {
+        root = insert(root, data);
+    }
+
+    // Main function to test the AVL tree
+    public static void main(String[] args) {
+        AVLTree tree = new AVLTree();
+
+        // Insert nodes into the AVL tree
+        tree.insert(30);
+        tree.insert(20);
+        tree.insert(10);  // This will cause a right rotation (LL case)
+        tree.insert(15);  // This will cause a left-right rotation (LR case)
+        tree.insert(25);  // This will cause a left rotation (RR case)
+
+        // Perform in-order traversal to print the sorted tree
+        System.out.println("In-order traversal of the AVL Tree:");
+        tree.inOrder(tree.root);  // Expected sorted order
+    }
+}
