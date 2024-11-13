@@ -1,0 +1,15 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+public class CircleArea {
+    public CircleArea() {
+    }
+
+    public static void main(String[] args) {
+        double radius = 21.0;
+        double area = Math.PI * radius * radius;
+        System.out.printf("The Area Of Circle is: " + area);
+    }
+}
